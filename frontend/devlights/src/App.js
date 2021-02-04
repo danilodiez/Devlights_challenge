@@ -1,5 +1,5 @@
 
-
+import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import StringInput from './components/StringInput';
 
@@ -11,7 +11,7 @@ function App() {
       <h2>
         Introduzca el string a comprobar
       </h2>
-      <StringInput/>
+      <StringInput />
 
     </div>
   );

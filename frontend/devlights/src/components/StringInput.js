@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import {useState} from 'react';
 import Alert from 'react-bootstrap/Alert'
-
+import History from './History'
 
 const StringInput = (
 
@@ -12,14 +12,33 @@ const StringInput = (
     const [alertClass, setAlertClass] = useState('');
     const [divAnswer, setAnswer] = useState('');
     const [alertFlag, setAlertFlag] = useState(false);
+    const [arrayData, setArrayData] = useState([]);
 
-
-    function showData(apiResponse){
+    function showData(string, apiResponse){
         let answer = apiResponse.response
-        let alertClass = answer=="YES"?"success":"danger"
+        let dataStorage;
+        let current = new Date()
+        let alertClass = answer==="YES"?"success":"danger"
         setAlertFlag(true);
         setAnswer(answer);
         setAlertClass(alertClass)
+
+
+        //Almacenado de registros
+        dataStorage = {
+            input:string,
+            output:answer,
+            date: current.toLocaleString()
+        }
+
+        setArrayData(oldArray=>[...oldArray,dataStorage])
+
+        
+        
+        
+        
+        
+        
 
     };
 
@@ -27,6 +46,7 @@ const StringInput = (
 
     function sendString(e, string){
         e.preventDefault();
+        if(string.match(/^[A-Za-z]+$/) && string.length<100000){
         fetch("http://localhost:8000/analyze",{
             method:'POST',
             credentials:'same-origin',
@@ -39,16 +59,18 @@ const StringInput = (
             })
         })
         .then(response => response.json())
-        .then(data => showData(data))
+        .then(data => showData(string,data))
         
         .catch(error => console.log(error))
+    }else{
+      console.log("String no valido")
     }
+  }
 
 
 
-    console.log(string)
     return ( 
-        <div className="w-60">
+        <div className="string-input">
         <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>String:</Form.Label>
@@ -63,6 +85,9 @@ const StringInput = (
       <Alert variant={alertClass}>
     {divAnswer}
   </Alert>:<></>}
+  {/*Analizamos si hay registros para mostrar*/
+  arrayData.length>0?<History data={arrayData} />:<></>
+  }
       </div>
     );
 }

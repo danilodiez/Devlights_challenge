@@ -53,7 +53,7 @@ function equalChars(stringObject) {
 
 
     if(equalCharsFlag === true){
-      //Tenemos el caso de un string valid por cantidad igual de caracteres
+      //Tenemos el caso de un string valido por cantidad igual de caracteres
       return "YES";
     }
     else{
@@ -73,7 +73,7 @@ function equalChars(stringObject) {
 
         return "NO"; 
       }else{
-        //console.log('Valido, se deberia retirar ' + unequalLetters[0])
+        //Es valido retirando una letra
         return "YES";
       }
     }
